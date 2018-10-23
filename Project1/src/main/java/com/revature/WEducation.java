@@ -29,7 +29,7 @@ public class WEducation {
 		job.setMapperClass(WEducationMapper.class);
 		job.setReducerClass(WEducationReducer.class);
 		job.setMapOutputKeyClass(Text.class);
-		job.setMapOutputValueClass(IntWritable.class);
+		job.setMapOutputValueClass(DoubleWritable.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(DoubleWritable.class);
 		boolean success = job.waitForCompletion(true);
