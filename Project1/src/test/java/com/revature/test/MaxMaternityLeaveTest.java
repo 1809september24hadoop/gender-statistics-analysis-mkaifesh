@@ -74,6 +74,11 @@ public class MaxMaternityLeaveTest {
 	}
 	@Test
 	public void MapReduceCombineTest(){
-		
+		mapReduceDriver.addInput(new LongWritable(1),test);
+		String test2 = "\"Iran\",\"IRN\",\"Test\",\"SH.MMR.LEVE\",\"10\",\"39\",\"20\",";
+		mapReduceDriver.addInput(new LongWritable(2),new Text(test2));
+		mapReduceDriver.withOutput(new Text("Bulgaria"), new IntWritable(40));
+		mapReduceDriver.withOutput(new Text("Bulgaria"), new IntWritable(40));
+		mapReduceDriver.runTest();
 	}
 }
