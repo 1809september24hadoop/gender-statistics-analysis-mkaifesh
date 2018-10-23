@@ -1,5 +1,8 @@
 package com.revature.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -16,6 +19,7 @@ public class MaxMaternityLeaveTest {
 	private MapDriver<LongWritable,Text,Text,IntWritable> mapDriver;
 	private ReduceDriver<Text, IntWritable, Text, IntWritable> reduceDriver;
 	private MapReduceDriver<LongWritable, Text, Text, IntWritable, Text, IntWritable> mapReduceDriver;
+	private ReduceDriver<Text,IntWritable,Text,IntWritable> combineReduceDriver = new ReduceDriver<Text,IntWritable,Text,IntWritable>();
 	private ReduceDriver<Text,IntWritable,Text,IntWritable> combiner;
 	private Text test;
 	
@@ -27,27 +31,46 @@ public class MaxMaternityLeaveTest {
 		mapDriver = new MapDriver<LongWritable,Text,Text,IntWritable>();
 		mapDriver.setMapper(mapper);
 		reduceDriver = new ReduceDriver<Text,IntWritable,Text,IntWritable>();
+		combineReduceDriver = new ReduceDriver<Text,IntWritable,Text,IntWritable>();
 		reduceDriver.setReducer(reducer);
 		mapReduceDriver = new MapReduceDriver<LongWritable,Text,Text,IntWritable,Text,IntWritable>();
+		combineReduceDriver.setReducer(combiner);
 		mapReduceDriver.setMapper(mapper);
 		mapReduceDriver.setCombiner(combiner);
 		mapReduceDriver.setReducer(reducer);
-		test = new Text("")
+		test = new Text("\"Bulgaria\",\"BGR\",\"Maternity leave (days paid)\",\"SH.MMR.LEVE\",\"10\",\"5\",\"40\",");
 	}
 	
 	@Test
 	public void MapperTest(){
-		
+		mapDriver.withInput(new LongWritable(1),test);
+		mapDriver.addOutput(new Text("Bulgaria"), new IntWritable(10));
+		mapDriver.addOutput(new Text("Bulgaria"), new IntWritable(5));
+		mapDriver.addOutput(new Text("Bulgaria"), new IntWritable(40));
+		mapDriver.runTest();
 	}
 	
 	@Test
 	public void ReducerTest(){
-		
+		List<IntWritable> bulValues = new ArrayList<>();
+		List<IntWritable> iranValues = new ArrayList<>();
+		bulValues.add(new IntWritable(40));
+		iranValues.add(new IntWritable(39));
+		reduceDriver.withInput(new Text("Iran"), iranValues);
+		reduceDriver.withInput(new Text("Bulgaria"), bulValues);
+		reduceDriver.withOutput(new Text("Bulgaria"), new IntWritable(40));
+		reduceDriver.runTest();
 	}
 	
 	@Test
 	public void CombinerTest(){
-		
+		List<IntWritable>values = new ArrayList<>();
+		values.add(new IntWritable(10));
+		values.add(new IntWritable(5));
+		values.add(new IntWritable(40));
+		combineReduceDriver.withInput(new Text("Bulgaria"), values);
+		combineReduceDriver.withOutput(new Text("Bulgaria"), new IntWritable(40));
+		combineReduceDriver.runTest();
 	}
 	@Test
 	public void MapReduceCombineTest(){
