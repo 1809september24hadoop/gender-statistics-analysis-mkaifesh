@@ -3,7 +3,6 @@ package com.revature.reduce;
 import java.io.IOException;
 
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -15,8 +14,8 @@ public class WEducationReducer extends Reducer<Text, DoubleWritable, Text, Doubl
 			sumGraduateRate += value.get();
 			++totalValues;
 		}
-		double averageGraduateRate = sumGraduateRate / totalValues;
-		if((averageGraduateRate) < 30){
+		Double averageGraduateRate = sumGraduateRate / totalValues;
+		if((averageGraduateRate)< 30){
 			context.write(key, new DoubleWritable(averageGraduateRate));
 		}
 	}
