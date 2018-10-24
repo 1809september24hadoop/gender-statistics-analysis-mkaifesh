@@ -10,8 +10,9 @@ import org.apache.hadoop.mapreduce.Mapper;
 public class MaternityLeaveMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException{
 		String line = value.toString();
-		String trimedLine = line.substring(1, line.length() - 2);
+		String trimedLine = line.substring(1, line.length() - 1);
 		String[] parts = trimedLine.split("\",\"");
+		parts[60] = parts[60].replaceAll("\"", "");
 		String country = parts[0];
 		if(parts[3].equals("SH.MMR.LEVE")){
 			for(int i = 4; i < parts.length;i++){

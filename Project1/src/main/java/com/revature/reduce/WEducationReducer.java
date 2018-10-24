@@ -18,17 +18,5 @@ public class WEducationReducer extends Reducer<Text, DoubleWritable, Text, Doubl
 		}
 	}
 	
-	public static void main(String[] args) {
-		String test = "\"Congo, Dem. Rep.\",\"COD\",\"Educational attainment, completed Bachelor's or equivalent, population 25+ years, female (%)\",\"SE.TER.HIAT.BA.FE.ZS\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"0.30557\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"0.63175\",\"\",\"\",\"\",";
-		String trimmed = test.substring(1, test.length() - 2);
-		System.out.println(trimmed);
-		String[] parts = trimmed.split("\",\"");
-		int index = 0;
-		for(String part: parts){
-			System.out.println("part["+index+"]: "+part);
-			++index;
-		}
-		
-	}
 }
 
