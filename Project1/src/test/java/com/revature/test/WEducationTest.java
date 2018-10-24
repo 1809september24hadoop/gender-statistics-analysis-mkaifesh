@@ -35,33 +35,34 @@ public class WEducationTest {
 		mapReduceDriver = new MapReduceDriver<LongWritable,Text,Text,DoubleWritable,Text,DoubleWritable>();
 		mapReduceDriver.setMapper(mapper);
 		mapReduceDriver.setReducer(reducer);
-		test = new Text("\"Zimbabwe\",\"ZWE\",\"Educational attainment, completed Bachelor's or equivalent, population 25+ years, female (%)\",\"SE.TER.HIAT.BA.FE.ZS\",\"3.37858\",\"0.88415\",\"40.0\"");
+		test = new Text("\"Zimbabwe\",\"ZWE\",\"Educational attainment, completed Bachelor's or equivalent, population 25+ years, female (%)\",\"SE.TER.HIAT.BA.FE.ZS\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"10.51097\",\"0.88415\",\"3.37858\",");
 	}
 	
 	
 	@Test
 	public void testMapper(){
 		mapDriver.withInput(new LongWritable(1), test);
-		mapDriver.addOutput(new Text("Zimbabwe:1960"),new DoubleWritable(3.37858D));
-		mapDriver.addOutput(new Text("Zimbabwe:1961"),new DoubleWritable(0.88415D));
-		mapDriver.addOutput(new Text("Zimbabwe:1962"),new DoubleWritable(40D));
+		mapDriver.addOutput(new Text("Zimbabwe:2014"),new DoubleWritable(10.51097D));
+		mapDriver.addOutput(new Text("Zimbabwe:2015"),new DoubleWritable(0.88415));
+		mapDriver.addOutput(new Text("Zimbabwe:2016"),new DoubleWritable(3.37858D));
 		mapDriver.runTest();
 	}
 	
 	@Test
 	public void testReducer(){
 		List<DoubleWritable> values = new ArrayList<DoubleWritable>();
-		values.add(new DoubleWritable(3.50));
-		reduceDriver.withInput(new Text("Zimbabwe:1960"),values);;
-		reduceDriver.withOutput(new Text("Zimbabwe:1960"),values.get(0));
+		values.add(new DoubleWritable(10.51097D));
+		reduceDriver.withInput(new Text("Zimbabwe:2014"),values);;
+		reduceDriver.withOutput(new Text("Zimbabwe:2014"),values.get(0));
 		reduceDriver.runTest();
 	}
 	
 	@Test
 	public void testMapReduce(){
 		mapReduceDriver.withInput(new LongWritable(1),test);
-		mapReduceDriver.addOutput(new Text("Zimbabwe:1960"), new DoubleWritable(3.37858D));
-		mapReduceDriver.addOutput(new Text("Zimbabwe:1961"), new DoubleWritable(0.88415D));
+		mapReduceDriver.addOutput(new Text("Zimbabwe:2014"), new DoubleWritable(10.51097D));
+		mapReduceDriver.addOutput(new Text("Zimbabwe:2015"), new DoubleWritable(0.88415D));
+		mapReduceDriver.addOutput(new Text("Zimbabwe:2016"),new DoubleWritable(3.37858D));
 		mapReduceDriver.runTest();
 	}
 }

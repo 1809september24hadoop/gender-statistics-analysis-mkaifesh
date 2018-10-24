@@ -38,15 +38,16 @@ public class MaxMaternityLeaveTest {
 		mapReduceDriver.setMapper(mapper);
 		mapReduceDriver.setCombiner(combiner);
 		mapReduceDriver.setReducer(reducer);
-		test = new Text("\"Bulgaria\",\"BGR\",\"Maternity leave (days paid)\",\"SH.MMR.LEVE\",\"10\",\"5\",\"40\",");
+		test = new Text("\"Bolivia\",\"BOL\",\"Maternity leave (days paid)\",\"SH.MMR.LEVE\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"90\",\"\",\"90\",\"\",\"90\",\"\",\"90\",\"\",");
 	}
 	
 	@Test
 	public void MapperTest(){
 		mapDriver.withInput(new LongWritable(1),test);
-		mapDriver.addOutput(new Text("Bulgaria"), new IntWritable(10));
-		mapDriver.addOutput(new Text("Bulgaria"), new IntWritable(5));
-		mapDriver.addOutput(new Text("Bulgaria"), new IntWritable(40));
+		mapDriver.addOutput(new Text("Bolivia"), new IntWritable(90));
+		mapDriver.addOutput(new Text("Bolivia"), new IntWritable(90));
+		mapDriver.addOutput(new Text("Bolivia"), new IntWritable(90));
+		mapDriver.addOutput(new Text("Bolivia"), new IntWritable(90));
 		mapDriver.runTest();
 	}
 	
@@ -54,11 +55,11 @@ public class MaxMaternityLeaveTest {
 	public void ReducerTest(){
 		List<IntWritable> bulValues = new ArrayList<>();
 		List<IntWritable> iranValues = new ArrayList<>();
-		bulValues.add(new IntWritable(40));
+		bulValues.add(new IntWritable(90));
 		iranValues.add(new IntWritable(39));
 		reduceDriver.withInput(new Text("Iran"), iranValues);
-		reduceDriver.withInput(new Text("Bulgaria"), bulValues);
-		reduceDriver.withOutput(new Text("Bulgaria"), new IntWritable(40));
+		reduceDriver.withInput(new Text("Bolivia"), bulValues);
+		reduceDriver.withOutput(new Text("Bolivia"), new IntWritable(90));
 		reduceDriver.runTest();
 	}
 	
@@ -74,11 +75,12 @@ public class MaxMaternityLeaveTest {
 	}
 	@Test
 	public void MapReduceCombineTest(){
+		//mapReduceDriver.setCombiner(combiner);
 		mapReduceDriver.addInput(new LongWritable(1),test);
-		String test2 = "\"Iran\",\"IRN\",\"Test\",\"SH.MMR.LEVE\",\"10\",\"39\",\"20\",";
+		String test2 = "\"Central African Republic\",\"CAF\",\"Maternity leave (days paid)\",\"SH.MMR.LEVE\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"40\",\"\",";
 		mapReduceDriver.addInput(new LongWritable(2),new Text(test2));
-		mapReduceDriver.withOutput(new Text("Bulgaria"), new IntWritable(40));
-		mapReduceDriver.withOutput(new Text("Bulgaria"), new IntWritable(40));
+		mapReduceDriver.withOutput(new Text("Bolivia"), new IntWritable(90));
+		mapReduceDriver.withOutput(new Text("Bolivia"), new IntWritable(90));
 		mapReduceDriver.runTest();
 	}
 }
