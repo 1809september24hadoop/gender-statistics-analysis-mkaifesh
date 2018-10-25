@@ -5,10 +5,9 @@ import java.io.IOException;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapreduce.Mapper.Context;
+import org.apache.hadoop.mapreduce.Mapper;
 
-public class WorldFEmploymentMapper extends Reducer<Text,DoubleWritable,Text,DoubleWritable>{
+public class WorldFEmploymentMapper extends Mapper<LongWritable,Text,Text,DoubleWritable>{
 	public void map(LongWritable key, Text value, Context context)throws IOException, InterruptedException{
 		String line = value.toString();
 		String trimedLine = line.substring(1, line.length() - 1);
