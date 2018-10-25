@@ -21,4 +21,3 @@ public class WEducationReducer extends Reducer<Text, DoubleWritable, Text, Doubl
 	}
 	
 }
-
