@@ -8,21 +8,28 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import com.google.common.util.concurrent.AtomicDouble;
 
-public class WorldMEmploymentReducer extends Reducer<Text,DoubleWritable,Text,DoubleWritable>{
-	static AtomicDouble firstPercentValue = new AtomicDouble(0.0);
-	static AtomicDouble runningIncrease = new AtomicDouble(0.0);
+public class WorldMEmploymentReducer extends Reducer<Text,DoubleWritable,Text,Text>{
+	static AtomicDouble currentYear = new AtomicDouble(0.0);
+	static AtomicDouble previousYear = new AtomicDouble(0.0);
+	static AtomicDouble percentChange = new AtomicDouble(0.0);
+	static AtomicDouble runningPercentChange = new AtomicDouble(0.0);
 	public void reduce(Text key, Iterable<DoubleWritable> values, Context context)throws IOException, InterruptedException{
+		StringBuilder sb = new StringBuilder();
 		boolean firstValue = true;
 		for(DoubleWritable value: values){
 			if(firstValue){
 				firstValue = false;
-				firstPercentValue = new AtomicDouble(value.get());
+				currentYear = new AtomicDouble(value.get());
+				sb.append(Double.toString(value.get())+"%, ");
 			}
 			else{
-				runningIncrease = new AtomicDouble(value.get()-runningIncrease.get());
+				previousYear = new AtomicDouble(currentYear.get());
+				currentYear = new AtomicDouble(value.get());
+				percentChange = new AtomicDouble( ((currentYear.get() - previousYear.get())/previousYear.get())*100);
+				sb.append(Double.toString(percentChange.get())+", ");
 			}
 		}
-		context.write(new Text("Increase in male employment percentage since 2000: "+key), new DoubleWritable(-1*runningIncrease.get()));
+		context.write(new Text("Percent Change in Male Employment since 2000: "+key),new Text(sb.toString()));
 	}
 
 }
