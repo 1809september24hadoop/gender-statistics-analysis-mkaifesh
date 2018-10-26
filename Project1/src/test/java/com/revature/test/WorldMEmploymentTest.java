@@ -66,7 +66,7 @@ public class WorldMEmploymentTest {
 		values.add(new DoubleWritable(10));
 		values.add(new DoubleWritable(30));
 		values.add(new DoubleWritable(5));
-		String expected = "10.0%, 200.0, -83.33333333333334, ";
+		String expected = "10.00%, 200.00, -83.33, ";
 		reduceDriver.withInput(new Text("Colombia"), values);
 		reduceDriver.addOutput(new Text("Percent Change in Male Employment since 2000: Colombia"),new Text(expected));
 		reduceDriver.runTest();
@@ -75,7 +75,7 @@ public class WorldMEmploymentTest {
 	@Test
 	public void TestMapReduce(){
 		mapReduceDriver.addInput(new LongWritable(1), new Text("\"Colombia\",\"COL\",\"Employment to population ratio, 15+, male (%) (modeled ILO estimate)\",\"SL.EMP.TOTL.SP.MA.ZS\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"10\",\"30\",\"5\","));
-		String expected = "10.0%, 200.0, -83.33333333333334, ";
+		String expected = "10.00%, 200.00, -83.33, ";
 		mapReduceDriver.withOutput(new Text("Percent Change in Male Employment since 2000: Colombia"), new Text(expected));
 		mapReduceDriver.runTest();
 	}
