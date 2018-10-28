@@ -12,33 +12,27 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.revature.USWomanGraduationRate.USGraduationRateMapper;
-import com.revature.USWomanGraduationRate.USTotalFemaleGraduatesReducer;
 import com.revature.USWomanGraduationRate.USWomanGraduationPopulationReducer;
 
 public class USWomanGraduateTest {
 	private MapDriver<LongWritable,Text,Text,Text> populationMapDriver;
 	private MapDriver<LongWritable,Text,Text,Text> graduationMapDriver;
 	private ReduceDriver<Text,Text,Text,Text> reduceDriver;
-	private MapReduceDriver<LongWritable,Text,Text,Text,Text,Text> mapReduceDriver;
-	private ReduceDriver<Text,Text,Text,Text> combinerDriver;
 	
 	@Before
 	public void setup(){
 		populationMapDriver = new MapDriver<LongWritable,Text,Text,Text>();
 		graduationMapDriver = new MapDriver<LongWritable,Text,Text,Text>();
 		reduceDriver = new ReduceDriver<Text,Text,Text,Text>();
-		mapReduceDriver = new MapReduceDriver<LongWritable,Text,Text,Text,Text,Text>();
-		combinerDriver = new ReduceDriver<Text,Text,Text,Text>();
 		
 		USGraduationRateMapper gradMapper = new USGraduationRateMapper();
 		USWomanGraduationPopulationReducer reducer = new USWomanGraduationPopulationReducer();
-		USTotalFemaleGraduatesReducer combiner = new USTotalFemaleGraduatesReducer();
 		
 		
 		reduceDriver.setReducer(reducer);
 		populationMapDriver.setMapper(gradMapper);
 		graduationMapDriver.setMapper(gradMapper);
-		combinerDriver.setReducer(combiner);
+		
 	}
 	
 	@Test
@@ -95,18 +89,8 @@ public class USWomanGraduateTest {
 		List<Text> values = new ArrayList<>();
 		values.add(new Text("population\t20000"));
 		values.add(new Text ("percent\t20.5"));
-		reduceDriver.withInput(new Text("United States:"),values);
-		reduceDriver.withOutput(new Text("United States"), new Text("4100"));
+		reduceDriver.withInput(new Text("United States:2001"),values);
+		reduceDriver.withOutput(new Text("United States:2001"), new Text("4100"));
 		reduceDriver.runTest();
-	}
-	
-	@Test
-	public void TestGraduateNumberCombiner(){
-		List<Text> values = new ArrayList<>();
-		values.add(new Text("4100"));
-		values.add(new Text("0"));
-		combinerDriver.withInput(new Text("United States"), values);
-		combinerDriver.withOutput(new Text("The total number of women who recieved a Bachelor's Degree since 2000 (Based on Available Data)"), new Text("4100"));
-		combinerDriver.runTest();
 	}
 }

@@ -10,7 +10,22 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import com.revature.map.WorldMEmploymentMapper;
 import com.revature.reduce.WorldMEmploymentReducer;
 
-
+/**
+ * This Job maps/reduces employment changes between Men on a year to year 
+ * basis between countries, starting from 2000
+ * 
+ * Thought Process:
+ *   -Map all countries by "SL.EMP.TOTL.SP.MA.ZS"
+ *   (Employment to population ratio, 15+, male (%) (modeled ILO estimate))
+ *   -In the reducer, determine the percent change between consecutive years and
+ *   add each to the return value
+ *   
+ * Assumptions:
+ *   -For the most accurate and complete data, all years from 2000 to 2016 have a percent
+ *   value in this field
+ * @author cloudera
+ *
+ */
 
 public class WorldMEmployment {
 	public static void main(String[] args) throws Exception{
